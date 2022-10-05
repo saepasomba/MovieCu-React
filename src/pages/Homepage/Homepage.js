@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { apiGetUpcoming, apiGetPopular, apiGetTrending } from '../../api'
 import CardList from '../../components/CardList/CardList'
@@ -10,6 +11,11 @@ export default function Homepage() {
   const [headerMovies, setHeaderMovies] = useState([])
   const [popularMovies, setPopularMovies] = useState([])
   const [upcomingMovies, setUpcomingMovies] = useState([])
+  const navigate = useNavigate()
+
+  const navigateToDetails = (movieID) => {
+    navigate(`/details/${movieID}`)
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,8 +37,8 @@ export default function Homepage() {
   return (
     <>
       <CustomCarousel movies={headerMovies} />
-      <CardList header={'Popular Movies'} movies={popularMovies} />
-      <CardList header={'Upcoming Movies'} movies={upcomingMovies} />
+      <CardList header={'Popular Movies'} movies={popularMovies} cardOnClick={navigateToDetails} />
+      <CardList header={'Upcoming Movies'} movies={upcomingMovies} cardOnClick={navigateToDetails} />
     </>
   )
 }
