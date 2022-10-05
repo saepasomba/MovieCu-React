@@ -1,0 +1,32 @@
+@use '../../variables';
+
+.carousel {
+    background-color: red;
+
+    .carousel-item {
+        position: relative;
+        height: 100vh;
+        img {
+            filter: brightness(50%);
+            object-fit: cover;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .carousel-item-details {
+            position: absolute;
+            top: 50%;
+            left: 2rem;
+            transform: translateY(-50%);
+            color: white;
+            width: 50%;
+
+            h1 {
+                color: white;
+                font-size: 5rem;
+                margin: 0 0 1rem 0;
+                line-height: normal;
+            }
+        }
+    }
+}
