@@ -57,6 +57,20 @@
                     color: white;
                     font-size: 1.5rem;
                     transition: variables.$transition;
+
+                    .card-movie-rating {
+                        display: flex;
+                        align-items: center;
+                        gap: 0.2rem;
+
+                        .star-icon {
+                            color: gold;
+                        }
+
+                        p {
+                            margin: 0;
+                        }
+                    }
                 }
             }
     
