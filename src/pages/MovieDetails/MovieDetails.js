@@ -14,6 +14,7 @@ export default function MovieDetails() {
       setMovie(data)
     }
     fetchData()
+    window.scrollTo(0,0)
   }, [])
 
   return (

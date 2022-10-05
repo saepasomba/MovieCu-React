@@ -9,47 +9,57 @@
     z-index: 5;
 
     .container-navbar {
-        // background-color: blue;
         display: flex;
         justify-content: space-between;
+
+        .app-logo {
+            transition: variables.$transition;
+        }
+
+        .app-logo:hover {
+            cursor: pointer;
+            filter: brightness(0.8);
+        }
 
         .auth-btn-group {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 0.5rem;
         }
+
+        .searchbar {
+            position: relative;
+            border: 1px solid variables.$color-red;
+            border-radius: 25px;
+            width: 25%;
+            overflow: hidden;
+    
+            input {
+                color: white;
+                background-color: transparent;
+                border: none;
+                padding: 0 1rem;
+                width: 100%;
+                height: 100%;
+                transition: variables.$transition;
+            }
+    
+            .search-icon {
+                position: absolute;
+                right: 5%;
+                color: white;
+                top: 50%;
+                transform: translateY(-50%);
+    
+                font-size: 1.3rem;
+            }
+    
+            input:focus {
+                outline: none;
+                background-color: rgba($color: #000000, $alpha: 0.2);
+            }
+        }
     }
 
-    .searchbar {
-        position: relative;
-        border: 1px solid variables.$color-red;
-        border-radius: 25px;
-        width: 25%;
-        overflow: hidden;
-
-        input {
-            color: white;
-            background-color: transparent;
-            border: none;
-            padding: 0 1rem;
-            width: 100%;
-            height: 100%;
-            transition: variables.$transition;
-        }
-
-        .search-icon {
-            position: absolute;
-            right: 5%;
-            color: white;
-            top: 50%;
-            transform: translateY(-50%);
-
-            font-size: 1.3rem;
-        }
     }
     
-    input:focus {
-        outline: none;
-        background-color: rgba($color: #000000, $alpha: 0.2);
-    }
-}
