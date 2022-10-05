@@ -1,0 +1,65 @@
+@use '../../variables';
+
+.search-view {
+    margin-top: 5rem;
+
+    h2 {
+        margin: 0;
+        font-size: 1.8rem;
+    }
+
+    .movies-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 3rem;
+
+        .movie-image-card {
+            position: relative;
+            height: 30rem;
+            border-radius: 15px;
+            overflow: hidden;
+            img {
+                height: 100%;
+                width: 100%;
+                object-fit: cover;
+                transition: variables.$transition;
+            }
+
+            .movie-card-details {
+                position: absolute;
+                bottom: 0;
+                left: 5%;
+                transform: translateY(100%);
+                color: white;
+                font-size: 1.5rem;
+                transition: variables.$transition;
+
+                .card-movie-rating {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.2rem;
+
+                    .star-icon {
+                        color: gold;
+                    }
+
+                    p {
+                        margin: 0;
+                    }
+                }
+            }
+        }
+
+        .movie-image-card:hover {
+            cursor: pointer;
+            img {   
+                filter: brightness(0.2);
+            }
+
+            .movie-card-details {
+                transform: translateY(0);
+                bottom: 10%;
+            }
+        }
+    }
+}

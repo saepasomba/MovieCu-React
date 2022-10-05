@@ -33,7 +33,7 @@ export default function CardList({ header, movies, cardOnClick }) {
           {
             movies.map(movie => {
               return (
-                <SwiperSlide className='movie-image-slide'>
+                <SwiperSlide key={movie.id} className='movie-image-slide'>
                   <div className='movie-image-card' onClick={() => cardOnClick(movie.id)}>
                     <img src={`https://image.tmdb.org/t/p/original${movie.poster_path}`} alt='movie poster' />
                     <div className='movie-card-details'>

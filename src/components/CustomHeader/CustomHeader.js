@@ -4,8 +4,6 @@ import { AiOutlinePlayCircle } from 'react-icons/ai';
 import CustomButton from '../CustomButton/CustomButton'
 
 export default function CustomHeader({ movie, detailed }) {
-  console.log('detailed', detailed)
-  console.log(movie)
   return (
     <>
       <div key={movie.id} className='header-item'>

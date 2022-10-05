@@ -23,3 +23,7 @@ export const apiGetUpcoming = () => {
 export const apiGetMovieDetails = (movieID) => {
     return axiosClient.get(`/movie/${movieID}${API_KEY}`)
 }
+
+export const apiSearchMovie = (query) => {
+    return axiosClient.get(`/search/movie${API_KEY}&query=${query}`)
+}
