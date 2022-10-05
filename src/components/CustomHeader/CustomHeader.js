@@ -21,7 +21,7 @@ export default function CustomHeader({ movie, detailed }) {
             </p>
           }
           <p>{movie.overview}</p>
-          <CustomButton icon={<AiOutlinePlayCircle />} text={'WATCH TRAILER'} />
+          <a href={`https://www.youtube.com/results?search_query=${movie.title ? movie.title : movie.name} trailer`}><CustomButton icon={<AiOutlinePlayCircle />} text={'WATCH TRAILER'} /></a>
           </div>
         </div>
       </div>
