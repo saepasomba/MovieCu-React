@@ -19,3 +19,7 @@ export const apiGetPopular = () => {
 export const apiGetUpcoming = () => {
     return axiosClient.get(`/movie/upcoming${API_KEY}`)
 }
+
+export const apiGetMovieDetails = (movieID) => {
+    return axiosClient.get(`/movie/${movieID}${API_KEY}`)
+}
