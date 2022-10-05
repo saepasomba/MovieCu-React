@@ -1,12 +1,12 @@
 @use '../../variables';
 
 .card-list {    
-    margin: 2rem 0;
+    margin: 5rem 0 2rem;
 
     .card-list-header {
         display: flex;
         justify-content: space-between;
-        align-items: center;
+        align-items: flex-end;
         margin: 0 0 2rem;
 
         h2 {
@@ -16,18 +16,58 @@
 
         a {
             font-size: 1rem;
+            color: variables.$color-red;
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            transition: variables.$transition;
+        }
+
+        a:hover {
+            gap: 0.1rem;
+            text-decoration: underline;
         }
     }
 
     .movie-swiper {
+
+        // In case button needed
+        .swiper-button-next, .swiper-button-prev {
+            color: variables.$color-red;
+        }
+
         .movie-image-card {
+            position: relative;
             height: 30rem;
             img {
                 border-radius: 15px;
                 height: 100%;
                 min-width: 100%;
                 object-fit: cover;
+                transition: variables.$transition;
+            }
+
+            .movie-card-details {
+                position: absolute;
+                bottom: 0;
+                left: 5%;
+                transform: translateY(100%);
+                color: white;
+                font-size: 1.5rem;
+                transition: variables.$transition;
+            }
+        }
+
+        .movie-image-card:hover {
+            cursor: pointer;
+            img {   
+                filter: brightness(0.2);
+            }
+
+            .movie-card-details {
+                bottom: 30%;
             }
         }
     }
 }
+

@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import Navbar from './components/NavBar/Navbar';
 import './index.css';
 import Homepage from './pages/Homepage/Homepage';
 import reportWebVitals from './reportWebVitals';
@@ -7,6 +8,7 @@ import reportWebVitals from './reportWebVitals';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <Navbar />
     <Homepage />
   </React.StrictMode>
 );

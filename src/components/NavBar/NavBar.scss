@@ -1,0 +1,37 @@
+@use '../../variables';
+
+.navbar {
+    // background-color: red;
+    position: absolute;
+    top: 0;
+    width: 100vw;
+    padding: 0.5rem 0;
+    z-index: 5;
+
+    .container-navbar {
+        // background-color: blue;
+        display: flex;
+        justify-content: space-between;
+
+        .auth-btn-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+        }
+    }
+
+    input {
+        border: 1px solid variables.$color-red;
+        background-color: transparent;
+        color: white;
+        width: 25%;
+        border-radius: 25px;
+        padding: 0 1rem;
+        transition: variables.$transition;
+    }
+    
+    input:focus {
+        outline: none;
+        background-color: rgba($color: #000000, $alpha: 0.2);
+    }
+}

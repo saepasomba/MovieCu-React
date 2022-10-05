@@ -15,3 +15,7 @@ export const apiGetTrending = () => {
 export const apiGetPopular = () => {
     return axiosClient.get(`/movie/popular${API_KEY}`)
 }
+
+export const apiGetUpcoming = () => {
+    return axiosClient.get(`/movie/upcoming${API_KEY}`)
+}
