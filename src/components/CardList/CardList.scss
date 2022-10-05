@@ -1,0 +1,33 @@
+@use '../../variables';
+
+.card-list {    
+    margin: 2rem 0;
+
+    .card-list-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 0 2rem;
+
+        h2 {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+
+        a {
+            font-size: 1rem;
+        }
+    }
+
+    .movie-swiper {
+        .movie-image-card {
+            height: 30rem;
+            img {
+                border-radius: 15px;
+                height: 100%;
+                min-width: 100%;
+                object-fit: cover;
+            }
+        }
+    }
+}

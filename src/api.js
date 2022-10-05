@@ -11,3 +11,7 @@ const axiosClient = axios.create({
 export const apiGetTrending = () => {
     return axiosClient.get(`/trending/all/day${API_KEY}`)
 }
+
+export const apiGetPopular = () => {
+    return axiosClient.get(`/movie/popular${API_KEY}`)
+}
