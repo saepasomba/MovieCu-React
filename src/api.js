@@ -27,3 +27,7 @@ export const apiGetMovieDetails = (movieID) => {
 export const apiSearchMovie = (query) => {
     return axiosClient.get(`/search/movie${API_KEY}&query=${query}`)
 }
+
+export const apiGetCredits = (movieID) => {
+    return axiosClient.get(`/movie/${movieID}/credits${API_KEY}`)
+}
