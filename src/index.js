@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import Footer from './components/Footer/Footer';
 import Navbar from './components/NavBar/Navbar';
 import './index.css';
 import Homepage from './pages/Homepage/Homepage';
@@ -10,6 +11,7 @@ root.render(
   <React.StrictMode>
     <Navbar />
     <Homepage />
+    <Footer />
   </React.StrictMode>
 );
 
