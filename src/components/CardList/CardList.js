@@ -33,7 +33,7 @@ export default function CardList({ header, movies }) {
           {
             movies.map(movie => {
               return (
-                <SwiperSlide className='movie-image-card'>
+                <SwiperSlide className='movie-image-slide'>
                   <div className='movie-image-card'>
                     <img src={`https://image.tmdb.org/t/p/original${movie.poster_path}`} alt='movie poster' />
                     <div className='movie-card-details'>

@@ -36,36 +36,39 @@
             color: variables.$color-red;
         }
 
-        .movie-image-card {
-            position: relative;
-            height: 30rem;
-            img {
+        .movie-image-slide {
+            .movie-image-card {
+                position: relative;
+                height: 30rem;
                 border-radius: 15px;
-                height: 100%;
-                min-width: 100%;
-                object-fit: cover;
-                transition: variables.$transition;
+                overflow: hidden;
+                img {
+                    height: 100%;
+                    width: 100%;
+                    object-fit: cover;
+                    transition: variables.$transition;
+                }
+    
+                .movie-card-details {
+                    position: absolute;
+                    bottom: 0;
+                    left: 5%;
+                    transform: translateY(100%);
+                    color: white;
+                    font-size: 1.5rem;
+                    transition: variables.$transition;
+                }
             }
-
-            .movie-card-details {
-                position: absolute;
-                bottom: 0;
-                left: 5%;
-                transform: translateY(100%);
-                color: white;
-                font-size: 1.5rem;
-                transition: variables.$transition;
-            }
-        }
-
-        .movie-image-card:hover {
-            cursor: pointer;
-            img {   
-                filter: brightness(0.2);
-            }
-
-            .movie-card-details {
-                bottom: 30%;
+    
+            .movie-image-card:hover {
+                cursor: pointer;
+                img {   
+                    filter: brightness(0.2);
+                }
+    
+                .movie-card-details {
+                    bottom: 30%;
+                }
             }
         }
     }
