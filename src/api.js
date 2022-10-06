@@ -31,3 +31,11 @@ export const apiSearchMovie = (query) => {
 export const apiGetCredits = (movieID) => {
     return axiosClient.get(`/movie/${movieID}/credits${API_KEY}`)
 }
+
+export const apiGetMovieByGenre = (genre) => {
+    return axiosClient.get(`/search/movie${API_KEY}&query=${genre}`)
+}
+
+export const apiGetGenre = () => {
+    return axiosClient.get(`/genre/movie/list${API_KEY}`)
+}
