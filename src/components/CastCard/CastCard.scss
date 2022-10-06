@@ -1,0 +1,31 @@
+@use '../../variables';
+
+.cast-img {
+    height: 20rem;
+
+    .loading-spinner {
+        scale: 0.5;
+    }
+    
+    img {
+        height: 100%;
+        object-fit: cover;
+        border-radius: 15px;
+        transition: variables.$transition;
+    }
+    
+    .loaded {
+        animation: fadeIn 1s ease forwards;
+    }
+
+    .loading {
+        display: none;
+    }
+
+    .error-image {
+        width: 100%;
+        object-fit: contain;
+        background-color: gray;
+    }
+
+}
