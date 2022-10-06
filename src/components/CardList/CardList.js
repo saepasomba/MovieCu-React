@@ -10,7 +10,7 @@ import "swiper/css/navigation";
 
 import './CardList.scss'
 
-export default function CardList({ header, movies, cardOnClick }) {
+export default function CardList({ header, movies, cardOnClick, additionalHeader }) {
   return (
     <div className='card-list'>
       <div className='container'>
@@ -18,6 +18,10 @@ export default function CardList({ header, movies, cardOnClick }) {
           <h2>{header}</h2>
           <a><span>See all movies</span> {<AiOutlineArrowRight />}</a>
         </div>
+        {
+          additionalHeader &&
+          additionalHeader
+        }
         <Swiper
           slidesPerView={4}
           spaceBetween={20}

@@ -17,7 +17,8 @@ root.render(
       <Routes>
         <Route path='/' element={<Homepage />} />
         <Route path='/details/:movieID' element={<MovieDetails />} />
-        <Route path='/search/:query' element={<MovieSearch />} replace />
+        <Route path='/search/:query' element={<MovieSearch action='search' />} replace />
+        <Route path='/genre/:query' element={<MovieSearch action='genre' />} replace />
         <Route path='*' element={<Navigate to="/" />} />
       </Routes>
     <Footer />

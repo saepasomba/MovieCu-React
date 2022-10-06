@@ -1,0 +1,9 @@
+@use '../../variables';
+
+.genre-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    overflow: scroll;
+    margin: 2rem 0;
+}

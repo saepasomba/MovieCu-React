@@ -5,6 +5,7 @@ import { apiGetUpcoming, apiGetPopular, apiGetTrending } from '../../api'
 import CardList from '../../components/CardList/CardList'
 
 import CustomCarousel from '../../components/CustomCarousel/CustomCarousel'
+import GenreList from '../../components/GenreList/GenreList'
 
 export default function Homepage() {
 
@@ -38,7 +39,7 @@ export default function Homepage() {
     <>
       <CustomCarousel movies={headerMovies} />
       <CardList header={'Popular Movies'} movies={popularMovies} cardOnClick={navigateToDetails} />
-      <CardList header={'Upcoming Movies'} movies={upcomingMovies} cardOnClick={navigateToDetails} />
+      <CardList header={'Genres'} movies={upcomingMovies} cardOnClick={navigateToDetails} additionalHeader={<GenreList />} />
     </>
   )
 }

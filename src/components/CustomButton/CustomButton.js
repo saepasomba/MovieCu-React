@@ -1,9 +1,9 @@
 import React from 'react'
 import './CustomButton.scss'
 
-export default function CustomButton({ icon, text, block, type }) {
+export default function CustomButton({ icon, text, block, type, onClick }) {
   return (
-    <button className={`btn ${block ? 'block' : ''} ${type}`}>
+    <button className={`btn ${block ? 'block' : ''} ${type}`} onClick={onClick}>
       {icon &&
         <div className='icon'>
           {icon}
