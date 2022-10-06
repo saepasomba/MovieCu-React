@@ -9,6 +9,7 @@ import 'swiper/css';
 import "swiper/css/navigation";
 
 import './CardList.scss'
+import MovieCard from '../MovieCard/MovieCard';
 
 export default function CardList({ header, movies, cardOnClick, additionalHeader }) {
   return (
@@ -38,16 +39,7 @@ export default function CardList({ header, movies, cardOnClick, additionalHeader
             movies.map(movie => {
               return (
                 <SwiperSlide key={movie.id} className='movie-image-slide'>
-                  <div className='movie-image-card' onClick={() => cardOnClick(movie.id)}>
-                    <img src={`https://image.tmdb.org/t/p/original${movie.poster_path}`} alt='movie poster' />
-                    <div className='movie-card-details'>
-                      <p>{movie.title ? movie.title : movie.name}</p>
-                      <div className='card-movie-rating'>
-                        <AiFillStar className='star-icon' />
-                        <p>{movie.vote_average}/10</p>
-                      </div>
-                    </div>
-                  </div>
+                  <MovieCard movie={movie} cardOnClick={cardOnClick} />
                 </SwiperSlide>
               )
             })

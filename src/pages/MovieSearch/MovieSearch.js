@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { apiGetGenre, apiGetMovieByGenre, apiSearchMovie } from '../../api'
 import CustomButton from '../../components/CustomButton/CustomButton'
 import GenreList from '../../components/GenreList/GenreList'
+import MovieCard from '../../components/MovieCard/MovieCard'
 import './MovieSearch.scss'
 
 export default function MovieSearch({ action }) {
@@ -62,16 +63,7 @@ export default function MovieSearch({ action }) {
               {
                 movies.map(movie => {
                   return (
-                    <div className='movie-image-card' onClick={() => navigateToDetails(movie.id)}>
-                      <img src={`https://image.tmdb.org/t/p/original${movie.poster_path}`} alt='movie poster' />
-                      <div className='movie-card-details'>
-                        <p>{movie.title ? movie.title : movie.name}</p>
-                        <div className='card-movie-rating'>
-                          <AiFillStar className='star-icon' />
-                          <p>{movie.vote_average}/10</p>
-                        </div>
-                      </div>
-                    </div>
+                    <MovieCard movie={movie} cardOnClick={navigateToDetails} />
                   )
                 })
               }
