@@ -14,6 +14,10 @@
         object-fit: cover;
         transition: variables.$transition;
     }
+    
+    .loaded {
+        animation: fadeIn 1s ease forwards;
+    }
 
     .loading {
         display: none;

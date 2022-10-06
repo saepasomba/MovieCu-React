@@ -3,6 +3,23 @@
 .header-item {
     position: relative;
     height: 100vh;
+    background-color: black;
+    
+    .secondary-backdrop {
+        width: 100%;
+        height: 100%;
+        background-color: black;
+    }
+    
+    .loaded {
+        animation: fadeIn 1s ease forwards;
+    }
+    
+    .loading {
+        display: none;
+    }
+    
+    
     img {
         filter: brightness(50%);
         object-fit: cover;

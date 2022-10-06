@@ -1,2 +1,13 @@
 $color-red: #ff0000;
 $transition: 200ms ease;
+
+@keyframes fadeIn {
+    0% {
+        // filter: brightness(0);
+        opacity: 0;
+    }
+    100% {
+        // filter: brightness(1);
+        opacity: 1;
+    }
+}
