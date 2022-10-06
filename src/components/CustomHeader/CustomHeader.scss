@@ -3,7 +3,9 @@
 .header-item {
     position: relative;
     height: 100vh;
+    width: 100vw;
     background-color: black;
+    overflow: hidden;
     
     .secondary-backdrop {
         width: 100%;
@@ -24,7 +26,7 @@
         filter: brightness(50%);
         object-fit: cover;
         height: 100vh;
-        width: 100vw;
+        width: 100%;
     }
 
     .container-carousel-details {

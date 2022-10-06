@@ -2,8 +2,8 @@
 
 .genre-list {
     display: flex;
+    width: 100%;
     flex-wrap: wrap;
     gap: 0.5rem;
-    overflow: scroll;
     margin: 2rem 0;
 }
