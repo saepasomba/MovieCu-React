@@ -4,15 +4,12 @@ import { useParams } from 'react-router-dom'
 import { apiGetCredits, apiGetMovieDetails } from '../../api'
 import CustomHeader from '../../components/CustomHeader/CustomHeader'
 import defaultImage from '../../no-image.svg.png'
+import CastCard from '../../components/CastCard/CastCard'
 
 export default function MovieDetails() {
   const [movie, setMovie] = useState({})
   const [casts, setCasts] = useState([])
   const { movieID } = useParams()
-
-  const replaceImage = (event) => {
-    event.target.src = defaultImage
-  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,9 +36,7 @@ export default function MovieDetails() {
               casts.map(cast => {
                 return (
                   <div className='cast-card' key={cast.id}>
-                    <div className='cast-img'>
-                      <img src={`https://image.tmdb.org/t/p/original${cast.profile_path}`} onError={replaceImage} alt='cast profile' />
-                    </div>
+                    <CastCard src={`https://image.tmdb.org/t/p/original${cast.profile_path}`} />
                     <div className='card-detail'>
                       <p className='cast-name'>{cast.name}</p>
                       <p className='cast-character'>{cast.character}</p>

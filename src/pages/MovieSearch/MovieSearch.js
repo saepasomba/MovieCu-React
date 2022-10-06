@@ -19,10 +19,6 @@ export default function MovieSearch({ action }) {
     navigate(`/details/${movieID}`)
   }
 
-  const genreButtonClicked = (genre) => {
-    navigate(`/genre/${genre}`)
-  }
-
   useEffect(() => {
     setIsLoading(true)
     const fetchData = async() => {

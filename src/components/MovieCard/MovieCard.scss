@@ -5,7 +5,8 @@
     height: 30rem;
     border-radius: 15px;
     overflow: hidden;
-    box-shadow: inset 0 0 10px 10px rgba($color: #ff0000, $alpha: 0.1);
+    box-shadow: inset 0 0 10rem 5rem rgba($color: #000000, $alpha: 0.1);
+    transition: variables.$transition;
 
     img {
         height: 100%;
@@ -56,6 +57,8 @@
 
 .movie-image-card:hover {
     cursor: pointer;
+    background-color: rgba($color: #000000, $alpha: 0.5);
+
     img {   
         filter: brightness(0.2);
     }
