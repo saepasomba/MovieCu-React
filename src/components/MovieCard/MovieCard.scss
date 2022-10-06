@@ -5,11 +5,28 @@
     height: 30rem;
     border-radius: 15px;
     overflow: hidden;
+    box-shadow: inset 0 0 10px 10px rgba($color: #ff0000, $alpha: 0.1);
+
     img {
         height: 100%;
         width: 100%;
         object-fit: cover;
         transition: variables.$transition;
+    }
+
+    .loading {
+        display: none;
+    }
+
+    .loading-spinner {
+        object-fit: contain;
+        scale: 0.5;
+        margin: 0 auto;
+    }
+
+    .error-image {
+        object-fit: contain;
+        background-color: gray;
     }
 
     .movie-card-details {
