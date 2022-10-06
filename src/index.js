@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import Footer from './components/Footer/Footer';
 import Navbar from './components/NavBar/Navbar';
-import './index.css';
 import Homepage from './pages/Homepage/Homepage';
 import MovieDetails from './pages/MovieDetails/MovieDetails';
 import MovieSearch from './pages/MovieSearch/MovieSearch';
 import reportWebVitals from './reportWebVitals';
+import './index.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
