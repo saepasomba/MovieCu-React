@@ -3,7 +3,6 @@ import './MovieDetails.scss'
 import { useParams } from 'react-router-dom'
 import { apiGetCredits, apiGetMovieDetails } from '../../api'
 import CustomHeader from '../../components/CustomHeader/CustomHeader'
-import defaultImage from '../../no-image.svg.png'
 import CastCard from '../../components/CastCard/CastCard'
 
 export default function MovieDetails() {

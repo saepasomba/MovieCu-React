@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import movielistLogo from '../../movielist-logo.svg'
+import movielistLogo from '../../assets/movielist-logo.svg'
 import CustomButton from '../CustomButton/CustomButton'
 import { AiOutlineSearch } from 'react-icons/ai'
 import './NavBar.scss'
