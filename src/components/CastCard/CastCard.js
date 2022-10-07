@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import './CastCard.scss'
 
-import noImage from '../../no-image.svg.png'
-import loadingGif from '../../loading.gif'
+import noImage from '../../assets/no-image.svg.png'
+import loadingGif from '../../assets/loading.gif'
 
 export default function CastCard({ src }) {
 

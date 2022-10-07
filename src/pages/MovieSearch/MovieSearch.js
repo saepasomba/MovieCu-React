@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { AiFillStar } from 'react-icons/ai'
 import { useNavigate, useParams } from 'react-router-dom'
-import { apiGetGenre, apiGetMovieByGenre, apiSearchMovie } from '../../api'
-import CustomButton from '../../components/CustomButton/CustomButton'
+import { apiGetMovieByGenre, apiSearchMovie } from '../../api'
 import GenreList from '../../components/GenreList/GenreList'
 import MovieCard from '../../components/MovieCard/MovieCard'
 import './MovieSearch.scss'
@@ -10,7 +8,6 @@ import './MovieSearch.scss'
 export default function MovieSearch({ action }) {
   const [movies, setMovies] = useState([])
   const [isLoading, setIsLoading] = useState(true)
-  const [genres, setGenres] = useState([])
 
   const { query } = useParams()
   const navigate = useNavigate()
@@ -28,9 +25,6 @@ export default function MovieSearch({ action }) {
       } else if (action === 'genre') {
         const genreResponse = await apiGetMovieByGenre(query)
         setMovies(genreResponse.data.results)
-        const genresResponse = await apiGetGenre()
-        console.log('data', genresResponse.data)
-        setGenres(genresResponse.data.genres)
       }
       setIsLoading(false)
     }

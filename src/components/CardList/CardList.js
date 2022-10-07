@@ -1,5 +1,5 @@
 import React from 'react'
-import { AiOutlineArrowRight, AiFillStar } from 'react-icons/ai'
+import { AiOutlineArrowRight } from 'react-icons/ai'
 // import Swiper JS
 import { Swiper, SwiperSlide } from 'swiper/react';
 
