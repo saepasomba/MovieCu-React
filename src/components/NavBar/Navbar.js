@@ -142,7 +142,7 @@ export default function Navbar() {
         >
           <Form.Item
             name="email"
-            rules={[{ required: true, message: 'Please input your username!' }]}
+            rules={[{ required: true, type: 'email' }]}
           >
             <Input placeholder="Username" />
           </Form.Item>
