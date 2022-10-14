@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import {  } from 'antd';
 import { Modal, Form, Input } from 'antd';
 
 import movielistLogo from '../../assets/movielist-logo.svg'
@@ -10,11 +9,20 @@ import './NavBar.scss'
 import axios from 'axios';
 
 export default function Navbar() {
+  /**
+   * TODO:
+   * - Loading after clicking login/register
+   * - Close modal after success -- DONE
+   * - Handle wrong input on form
+   */
+
+
   const [searchBar, setSearchBar] = useState('')
+
   const [loginModalOpen, setLoginModalOpen] = useState(false)
   const [registerModalOpen, setRegisterModalOpen] = useState(false)
-  const [form] = Form.useForm()
-
+  const [token, setToken] = useState('')
+  const [fullName, setFullName] = useState('')
 
   const navigate = useNavigate()
 
@@ -45,12 +53,20 @@ export default function Navbar() {
     setRegisterModalOpen(false)
   }
 
+  const logout = () => {
+    localStorage.removeItem('token')
+    setToken('')
+  }
+
   const loginSubmit = async(values) => {
     try {
-      console.log(values)
       const response = await axios.post(`http://notflixtv.herokuapp.com/api/v1/users/login`, values);
-      console.log(response)
+      const data = response.data.data
+      localStorage.setItem('token', JSON.stringify(data.token))
+      setToken(data.token)
+      modalCancel()
     } catch(e) {
+      console.log('error brou')
       console.log(e)
     }
   }
@@ -59,11 +75,32 @@ export default function Navbar() {
     try {
       console.log(values)
       const response = await axios.post(`http://notflixtv.herokuapp.com/api/v1/users`, values);
-      console.log(response)
+      const data = response.data.data
+
+      localStorage.setItem('token', JSON.stringify(data.token))
+      setToken(data.token)
+      modalCancel()
     } catch(e) {
       console.log(e)
     }
   }
+
+  useEffect(() => {
+    if (!token) {
+      const tokenLocal = JSON.parse(localStorage.getItem('token'))
+      setToken(tokenLocal)
+    }
+
+    if (token) {
+      const fetchUser = async() => {
+        const response = await axios.get(`http://notflixtv.herokuapp.com/api/v1/users/activate?token=${token}`)
+        console.log(response)
+        setFullName(`${response.data.data.first_name} ${response.data.data.last_name}`)
+      }
+      fetchUser()
+    }
+  }, [token])
+  
 
   return (
     <div className='navbar'>
@@ -73,11 +110,15 @@ export default function Navbar() {
           <input type='text' placeholder='Search movie...' onKeyDown={handleEnterPressed} onChange={handleSearchChange}></input>
           <AiOutlineSearch className='search-icon' onClick={search}/>
         </div>
-        <div className='auth-btn-group'>
-          <CustomButton text='Login' block type='btn-transparent' onClick={loginClicked}/>
-          <CustomButton text='Register' block onClick={registerClicked}/>
+        {token ?
+          <h1 className='user-greet' onClick={logout}>Welcome {fullName}</h1>
+          :
+          <div className='auth-btn-group'>
+            <CustomButton text='Login' block type='btn-transparent' onClick={loginClicked}/>
+            <CustomButton text='Register' block onClick={registerClicked}/>
+          </div>
+        }
         </div>
-      </div>
 
       <Modal title="Login"
       open={loginModalOpen}

@@ -9,8 +9,8 @@
     z-index: 5;
 
     .container-navbar {
-        display: flex;
-        justify-content: space-between;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
 
         .app-logo {
             transition: variables.$transition;
@@ -24,14 +24,23 @@
         .auth-btn-group {
             display: grid;
             grid-template-columns: 1fr 1fr;
+            width: 50%;
             gap: 0.5rem;
+            justify-self: end;
+        }
+
+        .user-greet {
+            color: white;
+            margin: 0;
+            justify-self: flex-end;
         }
 
         .searchbar {
             position: relative;
             border: 1px solid variables.$color-red;
             border-radius: 50px;
-            width: 25%;
+            width: 75%;
+            justify-self: center;
             overflow: hidden;
     
             input {
