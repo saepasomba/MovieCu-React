@@ -37,7 +37,7 @@ export default function CardList({ header, movies, cardOnClick, additionalHeader
         >
           {
             movies.map(movie => {
-              return (
+              return (  
                 <SwiperSlide key={movie.id} className='movie-image-slide'>
                   <MovieCard movie={movie} cardOnClick={cardOnClick} />
                 </SwiperSlide>

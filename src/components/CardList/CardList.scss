@@ -30,6 +30,7 @@
     }
 
     .movie-swiper {
+        height: 70vh;
 
         // In case button needed
         .swiper-button-next, .swiper-button-prev {
@@ -37,7 +38,7 @@
         }
 
         .movie-image-slide {
-            
+            height: 100%;
         }
     }
 }

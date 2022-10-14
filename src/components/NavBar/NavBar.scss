@@ -1,7 +1,6 @@
 @use '../../variables';
 
 .navbar {
-    // background-color: red;
     position: absolute;
     top: 0;
     width: 100vw;
@@ -9,8 +8,9 @@
     z-index: 5;
 
     .container-navbar {
-        display: flex;
-        justify-content: space-between;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        height: 2.5rem;
 
         .app-logo {
             transition: variables.$transition;
@@ -24,14 +24,25 @@
         .auth-btn-group {
             display: grid;
             grid-template-columns: 1fr 1fr;
+            width: 50%;
             gap: 0.5rem;
+            justify-self: end;
+        }
+
+        .user-greet {
+            color: white;
+            cursor: pointer;
+            font-size: 1.25rem;
+            margin: 0;
+            justify-self: flex-end;
         }
 
         .searchbar {
             position: relative;
             border: 1px solid variables.$color-red;
             border-radius: 50px;
-            width: 25%;
+            width: 75%;
+            justify-self: center;
             overflow: hidden;
     
             input {
@@ -59,7 +70,15 @@
                 background-color: rgba($color: #000000, $alpha: 0.8);
             }
         }
-    }
 
     }
+    
+    .custom-modal-footer {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+}
+.error-msg {
+    color: red;   
+}
     
