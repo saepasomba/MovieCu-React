@@ -11,9 +11,9 @@ import axios from 'axios';
 export default function Navbar() {
   /**
    * TODO:
-   * - Loading after clicking login/register
+   * - Loading after clicking login/register --
    * - Close modal after success -- DONE
-   * - Handle wrong input on form
+   * - Handle wrong input on form -- DONE
    */
 
 
@@ -53,6 +53,8 @@ export default function Navbar() {
   const modalCancel = () => {
     setLoginModalOpen(false)
     setRegisterModalOpen(false)
+    setLoginMsg(false)
+    setRegisterMsg(false)
   }
 
   const logout = () => {

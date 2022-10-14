@@ -1,7 +1,6 @@
 @use '../../variables';
 
 .navbar {
-    // background-color: red;
     position: absolute;
     top: 0;
     width: 100vw;
@@ -11,6 +10,7 @@
     .container-navbar {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
+        height: 2.5rem;
 
         .app-logo {
             transition: variables.$transition;
@@ -31,6 +31,8 @@
 
         .user-greet {
             color: white;
+            cursor: pointer;
+            font-size: 1.25rem;
             margin: 0;
             justify-self: flex-end;
         }
