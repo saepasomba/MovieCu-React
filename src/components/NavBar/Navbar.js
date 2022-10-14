@@ -99,7 +99,15 @@ export default function Navbar() {
 
     if (token) {
       const fetchUser = async() => {
-        const response = await axios.get(`https://notflixtv.herokuapp.com/api/v1/users/activate?token=${token}`)
+        const response = await axios.get(
+          `https://notflixtv.herokuapp.com/api/v1/users/me`,
+          {
+            headers: {
+              Authorization: `bearer ${token}`
+            }
+          }
+        )
+        // const response = await axios.get(`https://notflixtv.herokuapp.com/api/v1/users/activate?token=${token}`)
         console.log(response)
         setFullName(`${response.data.data.first_name} ${response.data.data.last_name}`)
       }
