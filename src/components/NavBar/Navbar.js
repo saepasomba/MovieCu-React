@@ -23,6 +23,8 @@ export default function Navbar() {
   const [registerModalOpen, setRegisterModalOpen] = useState(false)
   const [token, setToken] = useState('')
   const [fullName, setFullName] = useState('')
+  const [loginMsg, setLoginMsg] = useState(false)
+  const [registerMsg, setRegisterMsg] = useState(false)
 
   const navigate = useNavigate()
 
@@ -68,6 +70,7 @@ export default function Navbar() {
     } catch(e) {
       console.log('error brou')
       console.log(e)
+      setLoginMsg(true)
     }
   }
 
@@ -82,6 +85,7 @@ export default function Navbar() {
       modalCancel()
     } catch(e) {
       console.log(e)
+      setRegisterMsg(true)
     }
   }
 
@@ -148,7 +152,10 @@ export default function Navbar() {
             <Input.Password placeholder="Password" />
           </Form.Item>
 
-          <CustomButton text='Login' htmlType='submit' />,
+          {loginMsg &&
+            <p className='error-msg'>Login failed, please check your email and password are correct!</p>
+          }
+          <CustomButton text='Login' htmlType='submit' />
         </Form>
       </Modal>
 
@@ -206,8 +213,10 @@ export default function Navbar() {
           >
             <Input.Password placeholder="Password Confirmation" />
           </Form.Item>
-
-          <CustomButton text='Register' htmlType='submit' />,
+          {registerMsg &&
+            <p className='error-msg'>Register failed, please try again. Make sure your email is unique!</p>
+          }
+          <CustomButton text='Register' htmlType='submit' />
         </Form>
       </Modal>
     </div>
