@@ -73,27 +73,22 @@ export default function Navbar() {
       const data = response.data.data
       authenticated(data.token)
     } catch(e) {
-      console.log(e)
       setLoginMsg(true)
     }
   }
 
   const registerSubmit = async(values) => {
     try {
-      console.log(values)
       const response = await axios.post(`https://notflixtv.herokuapp.com/api/v1/users`, values);
       const data = response.data.data
 
       authenticated(data.token)
     } catch(e) {
-      console.log(e)
       setRegisterMsg(true)
     }
   }
 
   const responseGoogle = (response) => {
-    console.log('RESPONSE MASSEH')
-    console.log(response)
     authenticated(response.credential, 'google-oauth')
   }
   
@@ -168,6 +163,7 @@ export default function Navbar() {
       footer={null}
       >
         <Form
+          className='auth-form'
           name="basic"
           labelCol={{ span: 5 }}
           initialValues={{ remember: true }}
@@ -194,12 +190,13 @@ export default function Navbar() {
           }
           <CustomButton text='Login' htmlType='submit' />
         </Form>
-
+        <br/>
         <GoogleLogin
+          className='google-oauth-btn'
           onSuccess={responseGoogle}
           onError={() => {
-            console.log('Login Failed');
           }}
+          shape='pill'
         />
       </Modal>
 
@@ -262,6 +259,14 @@ export default function Navbar() {
           }
           <CustomButton text='Register' htmlType='submit' />
         </Form>
+        <br/>
+        <GoogleLogin
+          className='google-oauth-btn'
+          onSuccess={responseGoogle}
+          onError={() => {
+          }}
+          shape='pill'
+        />
       </Modal>
     </div>
   )
