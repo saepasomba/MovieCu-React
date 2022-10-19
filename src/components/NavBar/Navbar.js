@@ -7,6 +7,8 @@ import CustomButton from '../CustomButton/CustomButton'
 import { AiOutlineSearch } from 'react-icons/ai'
 import './NavBar.scss'
 import axios from 'axios';
+import { GoogleLogin } from '@react-oauth/google';
+
 
 export default function Navbar() {
   /**
@@ -21,6 +23,7 @@ export default function Navbar() {
 
   const [loginModalOpen, setLoginModalOpen] = useState(false)
   const [registerModalOpen, setRegisterModalOpen] = useState(false)
+  const [authType, setAuthType] = useState('')
   const [token, setToken] = useState('')
   const [fullName, setFullName] = useState('')
   const [loginMsg, setLoginMsg] = useState(false)
@@ -58,54 +61,81 @@ export default function Navbar() {
   }
 
   const logout = () => {
-    localStorage.removeItem('token')
+    localStorage.clear()
     setToken('')
+    setAuthType('')
+    setFullName('')
   }
 
   const loginSubmit = async(values) => {
     try {
       const response = await axios.post(`https://notflixtv.herokuapp.com/api/v1/users/login`, values);
       const data = response.data.data
-      localStorage.setItem('token', JSON.stringify(data.token))
-      setToken(data.token)
-      modalCancel()
+      authenticated(data.token)
     } catch(e) {
-      console.log('error brou')
-      console.log(e)
       setLoginMsg(true)
     }
   }
 
   const registerSubmit = async(values) => {
     try {
-      console.log(values)
       const response = await axios.post(`https://notflixtv.herokuapp.com/api/v1/users`, values);
       const data = response.data.data
 
-      localStorage.setItem('token', JSON.stringify(data.token))
-      setToken(data.token)
-      modalCancel()
+      authenticated(data.token)
     } catch(e) {
-      console.log(e)
       setRegisterMsg(true)
     }
+  }
+
+  const responseGoogle = (response) => {
+    authenticated(response.credential, 'google-oauth')
+  }
+  
+  const authenticated = (token, type = 'regular') => {
+    localStorage.setItem('token', JSON.stringify(token))
+    setToken(token)
+    if (type === 'regular') {
+      localStorage.setItem('auth_type', 'regular')
+      setAuthType('regular')
+    } else if (type === 'google-oauth') {
+      localStorage.setItem('auth_type', 'google-oauth')
+      setAuthType('google-oauth')
+    }
+    modalCancel()
   }
 
   useEffect(() => {
     if (!token) {
       const tokenLocal = JSON.parse(localStorage.getItem('token'))
       setToken(tokenLocal)
+      setAuthType(localStorage.getItem('auth_type'))
     }
 
     if (token) {
-      const fetchUser = async() => {
-        const response = await axios.get(`https://notflixtv.herokuapp.com/api/v1/users/activate?token=${token}`)
-        console.log(response)
-        setFullName(`${response.data.data.first_name} ${response.data.data.last_name}`)
+      if (authType === 'regular') {
+        const fetchUser = async() => {
+          try {
+            const response = await axios.get(
+              `https://notflixtv.herokuapp.com/api/v1/users/me`,
+              {
+                headers: {
+                  Authorization: `bearer ${token}`
+                }
+              }
+            )
+            setFullName(`${response.data.data.first_name} ${response.data.data.last_name}`)
+          } catch (e) {
+            setToken('')
+            localStorage.clear()
+          }
+        }
+        fetchUser()
+      } else if (authType === 'google-oauth') {
+        setFullName('Google user')
       }
-      fetchUser()
     }
-  }, [token])
+  }, [authType, token])
   
 
   return (
@@ -133,6 +163,7 @@ export default function Navbar() {
       footer={null}
       >
         <Form
+          className='auth-form'
           name="basic"
           labelCol={{ span: 5 }}
           initialValues={{ remember: true }}
@@ -159,6 +190,14 @@ export default function Navbar() {
           }
           <CustomButton text='Login' htmlType='submit' />
         </Form>
+        <br/>
+        <GoogleLogin
+          className='google-oauth-btn'
+          onSuccess={responseGoogle}
+          onError={() => {
+          }}
+          shape='pill'
+        />
       </Modal>
 
       <Modal title="Register"
@@ -220,6 +259,14 @@ export default function Navbar() {
           }
           <CustomButton text='Register' htmlType='submit' />
         </Form>
+        <br/>
+        <GoogleLogin
+          className='google-oauth-btn'
+          onSuccess={responseGoogle}
+          onError={() => {
+          }}
+          shape='pill'
+        />
       </Modal>
     </div>
   )

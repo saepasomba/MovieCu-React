@@ -31,6 +31,9 @@
 
         .user-greet {
             color: white;
+            background-color: rgba($color: #000000, $alpha: 0.4);
+            border-radius: 15px;
+            padding: 0 1.5rem;
             cursor: pointer;
             font-size: 1.25rem;
             margin: 0;
@@ -76,6 +79,10 @@
     .custom-modal-footer {
         display: grid;
         grid-template-columns: 1fr 1fr;
+    }
+
+    .auth-btn-spacer {
+        height: 1rem;
     }
 }
 .error-msg {
