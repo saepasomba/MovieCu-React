@@ -3,7 +3,7 @@ import { AiOutlineArrowRight } from 'react-icons/ai'
 // import Swiper JS
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import { Navigation } from 'swiper'
+// import { Navigation } from 'swiper'
 // import Swiper styles
 import 'swiper/css';
 import "swiper/css/navigation";
@@ -17,7 +17,7 @@ export default function CardList({ header, movies, cardOnClick, additionalHeader
       <div className='container'>
         <div className='card-list-header'>
           <h2>{header}</h2>
-          <a><span>See all movies</span> {<AiOutlineArrowRight />}</a>
+          <a href='#'><span>See all movies</span> {<AiOutlineArrowRight />}</a>
         </div>
         {
           additionalHeader &&
