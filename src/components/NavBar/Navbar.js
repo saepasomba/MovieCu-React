@@ -28,6 +28,7 @@ export default function Navbar() {
   const [fullName, setFullName] = useState('')
   const [loginMsg, setLoginMsg] = useState(false)
   const [registerMsg, setRegisterMsg] = useState(false)
+  const [isLoadingAuth, setIsLoadingAuth] = useState(false)
 
   const navigate = useNavigate()
 
@@ -68,6 +69,7 @@ export default function Navbar() {
   }
 
   const loginSubmit = async(values) => {
+    setIsLoadingAuth(true)
     try {
       const response = await axios.post(`https://notflixtv.herokuapp.com/api/v1/users/login`, values);
       const data = response.data.data
@@ -78,6 +80,7 @@ export default function Navbar() {
   }
 
   const registerSubmit = async(values) => {
+    setIsLoadingAuth(true)
     try {
       const response = await axios.post(`https://notflixtv.herokuapp.com/api/v1/users`, values);
       const data = response.data.data
@@ -102,6 +105,7 @@ export default function Navbar() {
       localStorage.setItem('auth_type', 'google-oauth')
       setAuthType('google-oauth')
     }
+    setIsLoadingAuth(false)
     modalCancel()
   }
 
@@ -198,6 +202,7 @@ export default function Navbar() {
           }}
           shape='pill'
         />
+        {isLoadingAuth && <p>Authenticating...</p>}
       </Modal>
 
       <Modal title="Register"
@@ -267,6 +272,7 @@ export default function Navbar() {
           }}
           shape='pill'
         />
+        {isLoadingAuth && <p>Authenticating...</p>}
       </Modal>
     </div>
   )
