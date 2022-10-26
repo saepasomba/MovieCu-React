@@ -7,32 +7,27 @@ import CardList from '../../components/CardList/CardList'
 import CustomCarousel from '../../components/CustomCarousel/CustomCarousel'
 import GenreList from '../../components/GenreList/GenreList'
 
-export default function Homepage() {
+import { useSelector, useDispatch } from 'react-redux';
+import { getHeaderMoviesAsync, selectHeaderMovies } from '../../reducers/HeaderMoviesSlice'
+import { getPopularMoviesAsync, getUpcomingMoviesAsync, selectHomepageMovies } from '../../reducers/HomepageSupportMoviesSlice'
 
-  const [headerMovies, setHeaderMovies] = useState([])
-  const [popularMovies, setPopularMovies] = useState([])
-  const [upcomingMovies, setUpcomingMovies] = useState([])
+
+export default function Homepage() {
+  const headerMovies = useSelector(selectHeaderMovies)
+  const popularMovies = useSelector(selectHomepageMovies).popularMovies
+  const upcomingMovies = useSelector(selectHomepageMovies).upcomingMovies
+
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const navigateToDetails = (movieID) => {
     navigate(`/details/${movieID}`)
   }
 
   useEffect(() => {
-    const fetchData = async () => {
-      let trendingResponse = await apiGetTrending()
-      let cutTrending = trendingResponse.data.results.slice(0, 5)
-      setHeaderMovies(cutTrending)
-
-      let popularResponse = await apiGetPopular()
-      let cutPopular = popularResponse.data.results.slice(0, 10)
-      setPopularMovies(cutPopular)
-
-      let upcomingResponse = await apiGetUpcoming()
-      let cutUpcoming = upcomingResponse.data.results.slice(0, 10)
-      setUpcomingMovies(cutUpcoming)
-    }
-    fetchData()
+    dispatch(getHeaderMoviesAsync())
+    dispatch(getPopularMoviesAsync())
+    dispatch(getUpcomingMoviesAsync())
   }, [])
 
   return (

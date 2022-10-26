@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { apiGetMovieByGenre, apiSearchMovie } from '../../api'
 import GenreList from '../../components/GenreList/GenreList'
 import MovieCard from '../../components/MovieCard/MovieCard'
+import { searchmovieAsync, searchmovieByGenreAsync, selectSearchMovies } from '../../reducers/SearchMoviesSlice'
 import './MovieSearch.scss'
 
 export default function MovieSearch({ action }) {
-  const [movies, setMovies] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
+  const dispatch = useDispatch()
+  const movies = useSelector(selectSearchMovies).movies
+  const isLoading = useSelector(selectSearchMovies).isLoading
 
   const { query } = useParams()
   const navigate = useNavigate()
@@ -17,18 +20,11 @@ export default function MovieSearch({ action }) {
   }
 
   useEffect(() => {
-    setIsLoading(true)
-    const fetchData = async() => {
-      if (action === 'search') {
-        const searchResponse = await apiSearchMovie(query)
-        setMovies(searchResponse.data.results)
-      } else if (action === 'genre') {
-        const genreResponse = await apiGetMovieByGenre(query)
-        setMovies(genreResponse.data.results)
-      }
-      setIsLoading(false)
+    if (action === 'search') {
+      dispatch(searchmovieAsync(query))
+    } else if (action === 'genre') {
+      dispatch(searchmovieByGenreAsync(query))
     }
-    fetchData()
     window.scrollTo(0,0)
   }, [query])
 

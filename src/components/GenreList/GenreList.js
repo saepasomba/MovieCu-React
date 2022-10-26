@@ -3,11 +3,14 @@ import './GenreList.scss'
 import CustomButton from '../CustomButton/CustomButton'
 import { apiGetGenre } from '../../api'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { getGenresAsync, selectGenres } from '../../reducers/GenreSlice'
 
 
 export default function GenreList({ query }) {
+  const dispatch = useDispatch()
+  const genres = useSelector(selectGenres)
 
-const [genres, setGenres] = useState([])
   const navigate = useNavigate()
 
   const genreButtonClicked = (genre) => {
@@ -15,12 +18,7 @@ const [genres, setGenres] = useState([])
   }
 
   useEffect(() => {
-    const fetchData = async() => {
-      const genresResponse = await apiGetGenre()
-      setGenres(genresResponse.data.genres)
-
-    }
-    fetchData()
+    dispatch(getGenresAsync())
   }, [])
 
   return (

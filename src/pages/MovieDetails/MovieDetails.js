@@ -4,23 +4,20 @@ import { useParams } from 'react-router-dom'
 import { apiGetCredits, apiGetMovieDetails } from '../../api'
 import CustomHeader from '../../components/CustomHeader/CustomHeader'
 import CastCard from '../../components/CastCard/CastCard'
+import { useDispatch, useSelector } from 'react-redux'
+import { getCastAsync, getMovieDetailAsync, selectDetailMovie, selectMovieCasts } from '../../reducers/MovieDetailSlice'
 
 export default function MovieDetails() {
-  const [movie, setMovie] = useState({})
-  const [casts, setCasts] = useState([])
+  // const [movie, setMovie] = useState({})
+  // const [casts, setCasts] = useState([])
+  const movie = useSelector(selectDetailMovie)
+  const casts = useSelector(selectMovieCasts)
   const { movieID } = useParams()
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    const fetchData = async () => {
-      const detailResponse = await apiGetMovieDetails(movieID);
-      const detailData = detailResponse.data
-      setMovie(detailData)
-
-      const creditsResponse = await apiGetCredits(movieID);
-      const creditsData = creditsResponse.data.cast.slice(0, 20);
-      setCasts(creditsData)
-    }
-    fetchData()
+    dispatch(getMovieDetailAsync(movieID))
+    dispatch(getCastAsync(movieID))
     window.scrollTo(0,0)
   }, [])
 
