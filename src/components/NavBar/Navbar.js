@@ -8,29 +8,34 @@ import { AiOutlineSearch } from 'react-icons/ai'
 import './NavBar.scss'
 import axios from 'axios';
 import { GoogleLogin } from '@react-oauth/google';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectAuthInfo, logout, setToken, getUserAsync, loginAsync, registerAsync, modalCancelRedux, toggleLoginModal, toggleRegisterModal, setFullName } from '../../reducers/AuthSlice';
 
 
 export default function Navbar() {
-  /**
-   * TODO:
-   * - Loading after clicking login/register --
-   * - Close modal after success -- DONE
-   * - Handle wrong input on form -- DONE
-   */
-
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const [searchBar, setSearchBar] = useState('')
 
-  const [loginModalOpen, setLoginModalOpen] = useState(false)
-  const [registerModalOpen, setRegisterModalOpen] = useState(false)
+  // const [loginModalOpen, setLoginModalOpen] = useState(false)
+  // const [registerModalOpen, setRegisterModalOpen] = useState(false)
   const [authType, setAuthType] = useState('')
-  const [token, setToken] = useState('')
-  const [fullName, setFullName] = useState('')
-  const [loginMsg, setLoginMsg] = useState(false)
-  const [registerMsg, setRegisterMsg] = useState(false)
-  const [isLoadingAuth, setIsLoadingAuth] = useState(false)
 
-  const navigate = useNavigate()
+  const token = useSelector(selectAuthInfo).token
+  const fullName = useSelector(selectAuthInfo).fullName
+  const loginMsg = useSelector(selectAuthInfo).loginMsg
+  const registerMsg = useSelector(selectAuthInfo).registerMsg
+  const isLoadingAuth = useSelector(selectAuthInfo).isLoadingAuth
+  const loginModalOpen = useSelector(selectAuthInfo).loginModalOpen
+  const registerModalOpen = useSelector(selectAuthInfo).registerModalOpen
+
+  // const [token, setToken] = useState('')
+  // const [fullName, setFullName] = useState('')
+  // const [loginMsg, setLoginMsg] = useState(false)
+  // const [registerMsg, setRegisterMsg] = useState(false)
+  // const [isLoadingAuth, setIsLoadingAuth] = useState(false)
+
 
   const search = () => {
     navigate(`/search/${searchBar}`)
@@ -47,99 +52,77 @@ export default function Navbar() {
   }
 
   const loginClicked = () => {
-    setLoginModalOpen(current => !current)
+    // setLoginModalOpen(current => !current)
+    dispatch(toggleLoginModal())
   }
 
   const registerClicked = () => {
-    setRegisterModalOpen(current => !current)
+    // setRegisterModalOpen(current => !current)
+    dispatch(toggleRegisterModal())
   }
 
   const modalCancel = () => {
-    setLoginModalOpen(false)
-    setRegisterModalOpen(false)
-    setLoginMsg(false)
-    setRegisterMsg(false)
+    dispatch(modalCancelRedux())
   }
 
-  const logout = () => {
-    localStorage.clear()
-    setToken('')
-    setAuthType('')
-    setFullName('')
+  // const logout = () => {
+  //   localStorage.clear()
+  //   setToken('')
+  //   setAuthType('')
+  //   setFullName('')
+  // }
+
+  const loginSubmit = (values) => {
+    
+    dispatch(loginAsync(values))
+    authenticated(token)
   }
 
-  const loginSubmit = async(values) => {
-    setIsLoadingAuth(true)
-    try {
-      const response = await axios.post(`https://notflixtv.herokuapp.com/api/v1/users/login`, values);
-      const data = response.data.data
-      authenticated(data.token)
-    } catch(e) {
-      setLoginMsg(true)
-    }
-  }
-
-  const registerSubmit = async(values) => {
-    setIsLoadingAuth(true)
-    try {
-      const response = await axios.post(`https://notflixtv.herokuapp.com/api/v1/users`, values);
-      const data = response.data.data
-
-      authenticated(data.token)
-    } catch(e) {
-      setRegisterMsg(true)
-    }
+  const registerSubmit = (values) => {
+    
+    dispatch(registerAsync(values))
+    authenticated(token)
   }
 
   const responseGoogle = (response) => {
+    
     authenticated(response.credential, 'google-oauth')
   }
   
   const authenticated = (token, type = 'regular') => {
     localStorage.setItem('token', JSON.stringify(token))
-    setToken(token)
     if (type === 'regular') {
-      localStorage.setItem('auth_type', 'regular')
       setAuthType('regular')
+      localStorage.setItem('auth_type', 'regular')
+
     } else if (type === 'google-oauth') {
-      localStorage.setItem('auth_type', 'google-oauth')
       setAuthType('google-oauth')
+      localStorage.setItem('auth_type', 'google-oauth')
+      dispatch(setToken(token))
+      dispatch(setFullName('Google user'))
+      modalCancel()
     }
-    setIsLoadingAuth(false)
-    modalCancel()
   }
 
   useEffect(() => {
     if (!token) {
       const tokenLocal = JSON.parse(localStorage.getItem('token'))
-      setToken(tokenLocal)
+      dispatch(setToken(tokenLocal))
       setAuthType(localStorage.getItem('auth_type'))
     }
 
     if (token) {
+      
       if (authType === 'regular') {
-        const fetchUser = async() => {
-          try {
-            const response = await axios.get(
-              `https://notflixtv.herokuapp.com/api/v1/users/me`,
-              {
-                headers: {
-                  Authorization: `bearer ${token}`
-                }
-              }
-            )
-            setFullName(`${response.data.data.first_name} ${response.data.data.last_name}`)
-          } catch (e) {
-            setToken('')
-            localStorage.clear()
-          }
-        }
-        fetchUser()
+        dispatch(getUserAsync(token))
+        authenticated(token)
       } else if (authType === 'google-oauth') {
-        setFullName('Google user')
+        
+        dispatch(setFullName('Google user'))
+        authenticated(token, 'google-oauth')
       }
     }
-  }, [authType, token])
+  }, [token, authType])
   
 
   return (
@@ -151,7 +134,7 @@ export default function Navbar() {
           <AiOutlineSearch className='search-icon' onClick={search}/>
         </div>
         {token ?
-          <h1 className='user-greet' onClick={logout}>Welcome {fullName}</h1>
+          <h1 className='user-greet' onClick={() => dispatch(logout())}>Welcome {fullName}</h1>
           :
           <div className='auth-btn-group'>
             <CustomButton text='Login' block type='btn-transparent' onClick={loginClicked}/>

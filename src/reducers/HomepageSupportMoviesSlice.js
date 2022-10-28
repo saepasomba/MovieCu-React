@@ -52,7 +52,6 @@ const HomepageSupportMoviesSlice = createSlice({
 export const {} = HomepageSupportMoviesSlice.actions
 
 export const selectHomepageMovies = (state) => {
-  console.log(state)
   return state.homepageSupport
 }
 

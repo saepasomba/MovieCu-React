@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+import AuthReducer from '../reducers/AuthSlice';
 import GenreReducer from '../reducers/GenreSlice';
 import headerMoviesReducer from '../reducers/HeaderMoviesSlice';
 import HomepageSupportMoviesReducer from '../reducers/HomepageSupportMoviesSlice';
@@ -11,7 +12,8 @@ export const store = configureStore({
     movieDetail: MovieDetailReducer,
     homepageSupport: HomepageSupportMoviesReducer,
     searchmovies: SearchMoviesReducer,
-    genres: GenreReducer
+    genres: GenreReducer,
+    authInfo: AuthReducer
   },
 });
 

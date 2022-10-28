@@ -25,7 +25,6 @@ const GenreSlice = createSlice({
         state.status = 'loading'
       })
       .addCase(getGenresAsync.fulfilled, (state, action) => {
-        console.log('genre fetched')
         state.status = 'idle'
         state.genres = action.payload
       })
