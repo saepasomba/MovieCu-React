@@ -106,7 +106,10 @@ export default function Navbar() {
   };
 
   useEffect(() => {
+    console.log(process.env)
+    console.log("checking if user is logged in...")
     if (user) {
+      console.log("user is logged in. Fetching data...")
       try {
         authenticated(user)
       } catch (e) {
