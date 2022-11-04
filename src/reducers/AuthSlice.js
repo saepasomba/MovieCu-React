@@ -1,5 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios';
+// import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth, logInWithEmailAndPassword, registerWithEmailAndPassword, signInWithGoogle, db, logout as logoutFirebase } from "../firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { query, collection, getDocs, where } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
 const initialState = {
   token: '',
@@ -11,13 +16,11 @@ const initialState = {
   registerModalOpen: false
 }
 
+
 export const loginAsync = createAsyncThunk(
   'auth/login',
   async (values) => {
-    console.log('loginPayload', values)
-    const response = await axios.post(`https://notflixtv.herokuapp.com/api/v1/users/login`, values);
-    const data = response.data.data
-    return data
+    await logInWithEmailAndPassword(values.email, values.password)
   }
 )
 
@@ -41,29 +44,23 @@ export const registerAsync = createAsyncThunk(
   'auth/register',
   async (values) => {
     try {
-      const response = await axios.post(`https://notflixtv.herokuapp.com/api/v1/users`, values);
-      const data = response.data.data
-
-      return data
-      // authenticated(data.token)
+      await registerWithEmailAndPassword(values.name, values.email, values.password)
     } catch(e) {
-      // setRegisterMsg(true)
+      console.error(e)
     }
   }
 )
 
 const logoutUtil = (state) => {
+  logoutFirebase()
   state.token = ''
   state.fullName = ''
   state.isLoadingAuth = false
   state.loginMsg = false
   state.registerMsg = false
-  localStorage.clear()
+  state.loginModalOpen = false
+  state.registerModalOpen = false
 }
-
-// const authenticatedUtil = (token) => {
-
-// }
 
 const AuthSlice = createSlice({
   name: 'authInfo',
@@ -89,6 +86,10 @@ const AuthSlice = createSlice({
     },
     toggleRegisterModal: (state) => {
       state.registerModalOpen = !state.registerModalOpen
+    },
+    setLoadingAuth: (state, action) => {
+      console.log('setLoadingAuthAction', action)
+      state.isLoadingAuth = action.payload
     }
   },
   extraReducers: (builder) => {
@@ -136,7 +137,7 @@ const AuthSlice = createSlice({
   }
 });
 
-export const { logout, setToken, modalCancelRedux, toggleLoginModal, toggleRegisterModal, setFullName } = AuthSlice.actions
+export const { logout, setToken, modalCancelRedux, toggleLoginModal, toggleRegisterModal, setFullName, setLoadingAuth } = AuthSlice.actions
 
 export const selectAuthInfo = (state) => {
   return state.authInfo
