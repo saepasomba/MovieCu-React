@@ -6,21 +6,22 @@ import movielistLogo from '../../assets/movielist-logo.svg'
 import CustomButton from '../CustomButton/CustomButton'
 import { AiOutlineSearch } from 'react-icons/ai'
 import './NavBar.scss'
-import axios from 'axios';
 import { GoogleLogin } from '@react-oauth/google';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAuthInfo, logout, setToken, getUserAsync, loginAsync, registerAsync, modalCancelRedux, toggleLoginModal, toggleRegisterModal, setFullName } from '../../reducers/AuthSlice';
+import { selectAuthInfo, logout, setToken, getUserAsync, loginAsync, registerAsync, modalCancelRedux, toggleLoginModal, toggleRegisterModal, setFullName, setLoadingAuth } from '../../reducers/AuthSlice';
+import { auth, signInWithGoogle, db, logInWithEmailAndPassword, registerWithEmailAndPassword } from "../../firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { query, collection, getDocs, where } from "firebase/firestore";
 
 
 export default function Navbar() {
+  
   const navigate = useNavigate()
   const dispatch = useDispatch()
-
+  
   const [searchBar, setSearchBar] = useState('')
-
-  // const [loginModalOpen, setLoginModalOpen] = useState(false)
-  // const [registerModalOpen, setRegisterModalOpen] = useState(false)
   const [authType, setAuthType] = useState('')
+  const [user, loading, error] = useAuthState(auth);
 
   const token = useSelector(selectAuthInfo).token
   const fullName = useSelector(selectAuthInfo).fullName
@@ -29,13 +30,6 @@ export default function Navbar() {
   const isLoadingAuth = useSelector(selectAuthInfo).isLoadingAuth
   const loginModalOpen = useSelector(selectAuthInfo).loginModalOpen
   const registerModalOpen = useSelector(selectAuthInfo).registerModalOpen
-
-  // const [token, setToken] = useState('')
-  // const [fullName, setFullName] = useState('')
-  // const [loginMsg, setLoginMsg] = useState(false)
-  // const [registerMsg, setRegisterMsg] = useState(false)
-  // const [isLoadingAuth, setIsLoadingAuth] = useState(false)
-
 
   const search = () => {
     navigate(`/search/${searchBar}`)
@@ -52,12 +46,10 @@ export default function Navbar() {
   }
 
   const loginClicked = () => {
-    // setLoginModalOpen(current => !current)
     dispatch(toggleLoginModal())
   }
 
   const registerClicked = () => {
-    // setRegisterModalOpen(current => !current)
     dispatch(toggleRegisterModal())
   }
 
@@ -65,64 +57,62 @@ export default function Navbar() {
     dispatch(modalCancelRedux())
   }
 
-  // const logout = () => {
-  //   localStorage.clear()
-  //   setToken('')
-  //   setAuthType('')
-  //   setFullName('')
-  // }
-
-  const loginSubmit = (values) => {
-    
-    dispatch(loginAsync(values))
-    authenticated(token)
+  const loginSubmit = async (values) => {
+    setLoadingAuth(true)
+    const userAuth = await logInWithEmailAndPassword(values.email, values.password)
+    await authenticated(userAuth)
+    setLoadingAuth(false)
   }
 
-  const registerSubmit = (values) => {
-    
-    dispatch(registerAsync(values))
-    authenticated(token)
+  const registerSubmit = async (values) => {
+    setLoadingAuth(true)
+    try {
+      const userAuth = await registerWithEmailAndPassword(values.name, values.email, values.password)
+      await authenticated(userAuth)
+    } catch (e) {
+      console.log(e)
+    } finally {
+      setLoadingAuth(false)
+    }
   }
 
-  const responseGoogle = (response) => {
-    
-    authenticated(response.credential, 'google-oauth')
+  const responseGoogle = async () => {
+    const userAuth = await signInWithGoogle()
+    await authenticated(userAuth)
   }
   
-  const authenticated = (token, type = 'regular') => {
-    localStorage.setItem('token', JSON.stringify(token))
-    if (type === 'regular') {
-      setAuthType('regular')
-      localStorage.setItem('auth_type', 'regular')
-
-    } else if (type === 'google-oauth') {
-      setAuthType('google-oauth')
-      localStorage.setItem('auth_type', 'google-oauth')
-      dispatch(setToken(token))
-      dispatch(setFullName('Google user'))
-      modalCancel()
+  const authenticated = async (userAuth) => {
+    try {
+      let userData = await fetchUser(userAuth)
+      dispatch(setToken(userData.uid))
+      dispatch(setFullName(userData.name))
+      dispatch(modalCancelRedux())
+    } catch (e) {
+      console.error(e)
     }
   }
 
-  useEffect(() => {
-    if (!token) {
-      const tokenLocal = JSON.parse(localStorage.getItem('token'))
-      dispatch(setToken(tokenLocal))
-      setAuthType(localStorage.getItem('auth_type'))
-    }
+  const fetchUser = async (userAuth) => {
+    try {
+      const q = query(collection(db, "users"), where("uid", "==", userAuth?.uid));
+      const doc = await getDocs(q);
+      const data = doc.docs[0].data();
 
-    if (token) {
-      
-      if (authType === 'regular') {
-        dispatch(getUserAsync(token))
-        authenticated(token)
-      } else if (authType === 'google-oauth') {
-        
-        dispatch(setFullName('Google user'))
-        authenticated(token, 'google-oauth')
+      return data;
+
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      try {
+        authenticated(user)
+      } catch (e) {
       }
     }
-  }, [token, authType])
+  }, [user])
   
 
   return (
@@ -178,13 +168,14 @@ export default function Navbar() {
           <CustomButton text='Login' htmlType='submit' />
         </Form>
         <br/>
-        <GoogleLogin
+        <CustomButton text='Login with google' htmlType='submit' onClick={responseGoogle} />
+        {/* <GoogleLogin
           className='google-oauth-btn'
           onSuccess={responseGoogle}
           onError={() => {
           }}
           shape='pill'
-        />
+        /> */}
         {isLoadingAuth && <p>Authenticating...</p>}
       </Modal>
 
@@ -204,17 +195,10 @@ export default function Navbar() {
           autoComplete="off"
         >
           <Form.Item
-            name="first_name"
-            rules={[{ required: true, message: 'Please input your username!' }]}
+            name="name"
+            rules={[{ required: true, message: 'Please input your full name!' }]}
           >
             <Input placeholder="First Name" />
-          </Form.Item>
-
-          <Form.Item
-            name="last_name"
-            rules={[{ required: true, message: 'Please input your username!' }]}
-          >
-            <Input placeholder="Last Name" />
           </Form.Item>
 
           <Form.Item
@@ -236,25 +220,13 @@ export default function Navbar() {
             <Input.Password placeholder='Password' />
           </Form.Item>
 
-          <Form.Item
-            name="password_confirmation"
-            rules={[{ required: true, message: 'Please input your password!' }]}
-          >
-            <Input.Password placeholder="Password Confirmation" />
-          </Form.Item>
           {registerMsg &&
             <p className='error-msg'>Register failed, please try again. Make sure your email is unique!</p>
           }
           <CustomButton text='Register' htmlType='submit' />
         </Form>
         <br/>
-        <GoogleLogin
-          className='google-oauth-btn'
-          onSuccess={responseGoogle}
-          onError={() => {
-          }}
-          shape='pill'
-        />
+        <CustomButton text='Login with google' htmlType='submit' onClick={responseGoogle} />
         {isLoadingAuth && <p>Authenticating...</p>}
       </Modal>
     </div>
