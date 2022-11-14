@@ -7,6 +7,10 @@
     padding: 0.5rem 0;
     z-index: 5;
 
+    .menu-btn {
+        display: none;
+    }
+
     .container-navbar {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
@@ -30,7 +34,7 @@
         }
 
         .user-greet {
-            color: white;
+            color: variables.$color-white;
             background-color: rgba($color: #000000, $alpha: 0.4);
             border-radius: 15px;
             padding: 0 1.5rem;
@@ -49,7 +53,7 @@
             overflow: hidden;
     
             input {
-                color: white;
+                color: variables.$color-white;
                 background-color: rgba($color: #000000, $alpha: 0.4);
                 border: none;
                 padding: 0 1rem;
@@ -61,7 +65,7 @@
             .search-icon {
                 position: absolute;
                 right: 5%;
-                color: white;
+                color: variables.$color-white;
                 top: 50%;
                 transform: translateY(-50%);
                 cursor: pointer;
@@ -88,4 +92,48 @@
 .error-msg {
     color: red;   
 }
-    
+
+@media screen and (max-width: 767px) {
+    .navbar {
+
+        .menu-btn {
+            display: block;
+            background-color: variables.$color-background;
+            padding: 0.5rem;
+            border: none;
+            margin: 0.2rem auto;
+            color: variables.$color-white;
+            border-radius: 5px;
+        }
+
+
+        .container-navbar {
+            height: 14.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+
+            background-color: variables.$color-background;
+            border-radius: 15px;
+            padding: 1rem 0;
+
+            .searchbar {
+                height: 25%;
+            }
+
+            .auth-btn-group {
+                display: flex;
+                flex-direction: column;
+            }
+        }
+        .nav-hidden {
+            display: none;
+        }
+
+        .nav-displayed {
+            display: flex;
+        }
+    }
+}    

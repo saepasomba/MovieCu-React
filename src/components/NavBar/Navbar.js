@@ -4,7 +4,7 @@ import { Modal, Form, Input } from 'antd';
 
 import movielistLogo from '../../assets/movielist-logo.svg'
 import CustomButton from '../CustomButton/CustomButton'
-import { AiOutlineSearch } from 'react-icons/ai'
+import { AiOutlineSearch, AiOutlineMenu, AiOutlineClose } from 'react-icons/ai'
 import './NavBar.scss'
 import { GoogleLogin } from '@react-oauth/google';
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,6 +21,7 @@ export default function Navbar() {
   
   const [searchBar, setSearchBar] = useState('')
   const [authType, setAuthType] = useState('')
+  const [modalDisplayed, setModalDisplayed] = useState(true)
   const [user, loading, error] = useAuthState(auth);
 
   const token = useSelector(selectAuthInfo).token
@@ -105,6 +106,11 @@ export default function Navbar() {
     }
   };
 
+  const menuBtnClicked = () => {
+    console.log('menu clicked')
+    setModalDisplayed(current => !current)
+  }
+
   useEffect(() => {
     console.log(process.env)
     console.log("checking if user is logged in...")
@@ -120,7 +126,15 @@ export default function Navbar() {
 
   return (
     <div className='navbar'>
-      <div className='container container-navbar'>
+      <button className={`menu-btn`} onClick={menuBtnClicked}>
+        {
+          modalDisplayed ?
+          <AiOutlineClose />
+          :
+          <AiOutlineMenu />
+        }
+      </button>
+      <div className={`container container-navbar ${modalDisplayed ? 'nav-displayed' : 'nav-hidden'}`}>
         <a href='/'><img className='app-logo' src={movielistLogo} alt='movielist logo' /></a>
         <div className='searchbar'>
           <input type='text' placeholder='Search movie...' onKeyDown={handleEnterPressed} onChange={handleSearchChange}></input>

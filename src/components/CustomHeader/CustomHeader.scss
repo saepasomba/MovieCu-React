@@ -36,10 +36,15 @@
         transform: translate(-50%, -50%);
         
         .carousel-item-details {
-            color: white;
+            color: variables.$color-white;
             width: 50%;
+            
+            // margin: 0 auto;
+            // display: flex;
+            // flex-direction: column;
+            // align-items: center;
             h1 {
-                color: white;
+                color: variables.$color-white;
                 font-size: 5rem;
                 margin: 0 0 1rem 0;
                 line-height: normal;
@@ -47,6 +52,29 @@
 
             p {
                 font-size: 1rem;
+                // text-align: center;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .header-item {
+        .container-carousel-details{
+            .carousel-item-details{
+                margin: 0 auto;
+                text-align: center;
+                width: 80%;
+
+                h1 {
+                    font-size: 2rem;
+                }
+
+                p {
+                    // display: none;
+                    max-lines: 5;
+                    overflow: hidden;
+                }
             }
         }
     }

@@ -12,19 +12,20 @@ import './CardList.scss'
 import MovieCard from '../MovieCard/MovieCard';
 
 export default function CardList({ header, movies, cardOnClick, additionalHeader }) {
+
   return (
     <div className='card-list'>
       <div className='container'>
         <div className='card-list-header'>
           <h2>{header}</h2>
-          <a href='#'><span>See all movies</span> {<AiOutlineArrowRight />}</a>
+          {/* <a href='#'><span>See all movies</span> {<AiOutlineArrowRight />}</a> */}
         </div>
         {
           additionalHeader &&
           additionalHeader
         }
         <Swiper
-          slidesPerView={4}
+          slidesPerView={1}
           spaceBetween={20}
           pagination={{
             clickable: true,
@@ -34,6 +35,14 @@ export default function CardList({ header, movies, cardOnClick, additionalHeader
           // modules={[Navigation]}
           loop={true}
           className="movie-swiper"
+          breakpoints= {{
+            0: {
+              slidesPerView: 2
+            },
+            767: {
+              slidesPerView: 4
+            }
+          }}
         >
           {
             movies.map(movie => {

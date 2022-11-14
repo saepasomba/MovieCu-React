@@ -2,10 +2,13 @@
 
 .card-list {    
     margin: 5rem 0 2rem;
+    padding: 3rem 0;
+    background-color: rgba($color: variables.$color-white, $alpha: 0.1);
+    border-radius: 15px;
 
     .card-list-header {
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         align-items: flex-end;
         margin: 0 0 2rem;
 

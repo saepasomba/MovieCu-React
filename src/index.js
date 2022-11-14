@@ -8,7 +8,7 @@ import MovieDetails from './pages/MovieDetails/MovieDetails';
 import MovieSearch from './pages/MovieSearch/MovieSearch';
 import reportWebVitals from './reportWebVitals';
 import { store } from '../src/app/store'
-import './index.css';
+import './index.scss';
 
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { Provider } from 'react-redux';
