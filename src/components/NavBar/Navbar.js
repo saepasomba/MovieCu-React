@@ -21,7 +21,7 @@ export default function Navbar() {
   
   const [searchBar, setSearchBar] = useState('')
   const [authType, setAuthType] = useState('')
-  const [modalDisplayed, setModalDisplayed] = useState(true)
+  const [modalDisplayed, setModalDisplayed] = useState(false)
   const [user, loading, error] = useAuthState(auth);
 
   const token = useSelector(selectAuthInfo).token
@@ -135,7 +135,7 @@ export default function Navbar() {
         }
       </button>
       <div className={`container container-navbar ${modalDisplayed ? 'nav-displayed' : 'nav-hidden'}`}>
-        <a href='/'><img className='app-logo' src={movielistLogo} alt='movielist logo' /></a>
+        <a href='/'><h1>MovieCu</h1></a>
         <div className='searchbar'>
           <input type='text' placeholder='Search movie...' onKeyDown={handleEnterPressed} onChange={handleSearchChange}></input>
           <AiOutlineSearch className='search-icon' onClick={search}/>

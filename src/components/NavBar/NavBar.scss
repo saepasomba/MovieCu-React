@@ -16,6 +16,19 @@
         grid-template-columns: 1fr 1fr 1fr;
         height: 2.5rem;
 
+        a {
+            h1 {
+                margin: 0;
+                color: variables.$color-red;
+                font-weight: bold;
+            }
+
+            h1:hover {
+                cursor: pointer;
+                filter: brightness(0.8);
+            }
+        }
+
         .app-logo {
             transition: variables.$transition;
         }
@@ -98,6 +111,7 @@
 
         .menu-btn {
             display: block;
+            cursor: pointer;
             background-color: variables.$color-background;
             padding: 0.5rem;
             border: none;
